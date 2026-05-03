@@ -177,7 +177,7 @@
 
             try {
                 // Initialize model using your specific requested preview string
-                const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" }); // Use stable 1.5 or 2.0 for best web performance
+                const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" }); // Use stable 1.5 or 2.0 for best web performance
 
                 const prompt = `
                     You are a professional Biblical Intelligence AI. Respond to the user's query: "${query}"
@@ -203,7 +203,7 @@
             } catch (err) {
                 loader.classList.add('hidden');
                 resultPanel.classList.remove('hidden');
-                output.innerHTML = `<div class="p-4 bg-red-900/20 text-red-400 rounded-xl">Error: ${err.message}</div>`;
+                output.innerHTML = `<div class="p-4 bg-red-900/20 text-red-400 rounded-xl">Error: plz try again later </div>`;
             }
         }
     </script>
