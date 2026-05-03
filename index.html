@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptureAI Pro | Biblical Intelligence</title>
+    <!-- Tailwind for styling, FontAwesome for icons, Marked for Markdown rendering -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f172a; /* Deep Slate */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .accent-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+        .verse-content h3 { color: #a855f7; font-weight: 800; margin-top: 1.5rem; font-size: 1.25rem; }
+        .verse-content p { margin-bottom: 1rem; line-height: 1.7; color: #cbd5e1; }
+        .verse-content ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        
+        /* 3D Button Effect */
+        .btn-3d {
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #4338ca;
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #4338ca;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+        <!-- Brand Header -->
+        <header class="flex justify-between items-center mb-12">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 accent-gradient rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-cross text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight">SCRIPTURE<span class="text-indigo-400">AI</span></h1>
+                    <p class="text-xs text-slate-400 uppercase tracking-widest">Biblical Intelligence Engine</p>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <span class="text-xs bg-slate-800 px-3 py-1 rounded-full border border-slate-700">developed by @SharozIfrahim @SunaihaSabir & @Daimyounas & @fharukhIfrahim </span>
+            </div>
+        </header>
+
+        <!-- Search Hub -->
+        <section class="glass-panel rounded-3xl p-2 mb-8">
+            <div class="flex flex-col md:flex-row gap-2">
+                <input id="searchInput" type="text" 
+                       placeholder="Ask about a mood, a name meaning, or a prophet..." 
+                       class="flex-1 bg-transparent px-6 py-4 text-lg focus:outline-none placeholder:text-slate-500">
+                <button onclick="executeSearch()" class="btn-3d accent-gradient px-10 py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
+                    <i class="fas fa-sparkles"></i> REVEAL
+                </button>
+            </div>
+        </section>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content Area -->
+            <div class="lg:col-span-2 space-y-6">
+                <div id="loading" class="hidden glass-panel rounded-3xl p-12 text-center">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500 mb-4"></div>
+                    <p class="text-slate-400">Searching the scriptures and analyzing theological data...</p>
+                </div>
+
+                <article id="resultPanel" class="glass-panel rounded-3xl p-8 min-h-[400px] hidden overflow-hidden relative">
+                    <div id="aiOutput" class="verse-content"></div>
+                </article>
+            </div>
+
+            <!-- Side Intelligence Panel -->
+            <aside class="space-y-6">
+                <div class="glass-panel rounded-3xl p-6">
+                    <h2 class="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-4">Quick Insights</h2>
+                    <div class="space-y-2">
+                        <button onclick="setQuery('Meaning of name David')" class="w-full text-left p-3 rounded-xl hover:bg-slate-800 transition text-sm">
+                            <i class="fas fa-tag mr-2 opacity-50"></i> Name Etymology
+                        </button>
+                        <button onclick="setQuery('What does the bible say about depression?')" class="w-full text-left p-3 rounded-xl hover:bg-slate-800 transition text-sm">
+                            <i class="fas fa-heart mr-2 opacity-50"></i> Mood Guidance
+                        </button>
+                        <button onclick="setQuery('Life story of Prophet Elijah')" class="w-full text-left p-3 rounded-xl hover:bg-slate-800 transition text-sm">
+                            <i class="fas fa-scroll mr-2 opacity-50"></i> Prophet Histories
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-6 bg-indigo-900/20 border-indigo-500/20">
+                    <h2 class="text-sm font-bold text-indigo-400 uppercase mb-4">Resource Center</h2>
+                    <div id="resourceLinks" class="space-y-4">
+                        <a href="https://www.youtube.com/@bibleproject" target="_blank" class="flex items-center gap-3 group">
+                            <i class="fab fa-youtube text-red-500 text-xl"></i>
+                            <span class="text-sm group-hover:text-indigo-400 transition">BibleProject Visuals</span>
+                        </a>
+                        <a href="https://biblehub.com/" target="_blank" class="flex items-center gap-3 group">
+                            <i class="fas fa-language text-blue-400 text-xl"></i>
+                            <span class="text-sm group-hover:text-indigo-400 transition">Greek/Hebrew Lexicon</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Logic Setup -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+    </script>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        // Configuration
+        const API_KEY = "AIzaSyBOyIrFoYBIDSfZFo0pFgHagAPzLgpXCC4"; 
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        window.setQuery = (txt) => {
+            document.getElementById('searchInput').value = txt;
+            executeSearch();
+        }
+
+        window.executeSearch = async function() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            const loader = document.getElementById('loading');
+            const resultPanel = document.getElementById('resultPanel');
+            const output = document.getElementById('aiOutput');
+
+            // UI State Change
+            loader.classList.remove('hidden');
+            resultPanel.classList.add('hidden');
+
+            try {
+                // Initialize model using your specific requested preview string
+                const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" }); // Use stable 1.5 or 2.0 for best web performance
+
+                const prompt = `
+                    You are a professional Biblical Intelligence AI. Respond to the user's query: "${query}"
+                    
+                    Follow this structure strictly:
+                    1. ## 📖 Scripture Focus (Provide 2-3 key verses with citations)
+                    2. ## 🔍 Deep Meaning (If a name is mentioned, give Hebrew/Greek origin. If a concept, give theological context)
+                    3. ## 😊 Mood & Spirit (How the Bible addresses the emotional state or mood related to this query)
+                    4. ## 📜 Prophet Chronicles (Mention a specific Bible character or prophet whose life mirrors this topic)
+                    5. ## 🔗 External Exploration (Provide a search link for YouTube and a scholarly website link)
+                    
+                    Use Markdown for bolding and headings.
+                `;
+
+                const result = await model.generateContent(prompt);
+                const responseText = await result.response.text();
+                
+                // Render Markdown to HTML
+                output.innerHTML = marked.parse(responseText);
+                
+                loader.classList.add('hidden');
+                resultPanel.classList.remove('hidden');
+            } catch (err) {
+                loader.classList.add('hidden');
+                resultPanel.classList.remove('hidden');
+                output.innerHTML = `<div class="p-4 bg-red-900/20 text-red-400 rounded-xl">Error: ${err.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
