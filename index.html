@@ -155,7 +155,7 @@
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
         // Configuration
-        const API_KEY = "AIzaSyBOyIrFoYBIDSfZFo0pFgHagAPzLgpXCC4"; 
+        const API_KEY = "AIzaSyBxtizfs4TTyvh5ULE2V2VfxOFm2j5mi9M"; 
         const genAI = new GoogleGenerativeAI(API_KEY);
 
         window.setQuery = (txt) => {
@@ -177,7 +177,7 @@
 
             try {
                 // Initialize model using your specific requested preview string
-                const model = genAI.getGenerativeModel({ model: "gemini-2.1-flash-lite" }); // Use stable 1.5 or 2.0 for best web performance
+                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" }); // Use stable 1.5 or 2.0 for best web performance
 
                 const prompt = `
                     You are a professional Biblical Intelligence AI. Respond to the user's query: "${query}"
